@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Зелёная тарелка — помощник здорового питания</title>
+<style>
+:root{--green:#28634b;--deep:#174b38;--mint:#e9f4ec;--cream:#fbfaf5;--ink:#24352d;--muted:#718078;--line:#e2e9e2;--orange:#d98a43;--red:#b85b4b;--shadow:0 12px 35px rgba(30,70,48,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 Inter,Segoe UI,Arial,sans-serif}
+header{background:linear-gradient(120deg,#174b38,#347b58);color:white;padding:27px max(22px,calc((100% - 1180px)/2));}
+.top{display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}.logo{width:43px;height:43px;border-radius:15px;background:#ffffff20;display:grid;place-items:center;font-size:25px}
+header p{color:#e0eee4;max-width:650px;margin:17px 0 0}.tag{font-size:12px;border:1px solid #ffffff55;border-radius:99px;padding:7px 12px;color:#e9f4ec}
+main{max-width:1180px;margin:28px auto;padding:0 20px 55px}.intro{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}.intro h1{font-size:29px;margin:0 0 5px;color:var(--deep)}.intro p{margin:0;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tab{border:1px solid var(--line);background:white;color:var(--green);padding:10px 16px;border-radius:12px;cursor:pointer;font-weight:650}.tab.active{background:var(--green);color:white;border-color:var(--green)}
+.panel{display:none}.panel.active{display:block}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.card{background:white;border:1px solid var(--line);border-radius:19px;padding:22px;box-shadow:var(--shadow)}.card h2{font-size:19px;margin:0 0 6px;color:var(--deep)}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+label{display:block;font-weight:650;font-size:13px;margin:13px 0 6px}input,select{width:100%;padding:12px 13px;border:1px solid #d9e3da;border-radius:11px;background:#fff;color:var(--ink);font:inherit;outline:none}input:focus,select:focus{border-color:#5d9a76;box-shadow:0 0 0 3px #5d9a761a}
+.row{display:grid;grid-template-columns:1fr 130px;gap:12px}.btn{background:var(--green);color:white;border:0;border-radius:11px;padding:12px 17px;font-weight:700;cursor:pointer;margin-top:15px}.btn:hover{background:var(--deep)}.btn.secondary{background:var(--mint);color:var(--green)}
+.result-empty{background:#f6f9f5;border:1px dashed #cbd9ce;border-radius:15px;padding:25px;text-align:center;color:var(--muted);margin-top:10px}.verdict{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:13px;margin:14px 0;font-weight:700}.good{background:#e9f5ec;color:#28634b}.moderate{background:#fff4e6;color:#986027}.limit{background:#fbeeed;color:#a34c40}
+.nutrients{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:14px}.nut{background:#f7faf7;border:1px solid #edf1ed;padding:11px;border-radius:12px}.nut b{display:block;font-size:18px;color:var(--deep)}.nut span{font-size:12px;color:var(--muted)}
+.explain{background:#f7faf7;padding:14px;border-radius:13px;margin-top:14px}.explain h3{font-size:14px;margin:0 0 7px}.explain p{margin:0;color:#53645a;font-size:13px}
+.searchline{display:flex;gap:10px}.searchline input{flex:1}.food-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}.food{border:1px solid var(--line);border-radius:13px;padding:12px;cursor:pointer;background:#fff;text-align:left}.food:hover,.food.selected{border-color:#6d9d7d;background:#f2f8f3}.food strong{display:block}.food small{color:var(--muted)}
+.meal-total{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.metric{background:#f2f7f2;border-radius:13px;padding:14px}.metric b{font-size:21px;color:var(--deep);display:block}.metric span{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}td,th{text-align:left;padding:10px 7px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}.remove{color:var(--red);border:0;background:none;cursor:pointer}
+.waterbox{background:linear-gradient(135deg,#e8f4f2,#f2f8f3);border-radius:17px;padding:20px}.waterbig{font-size:35px;color:#286d69;font-weight:800}.waterbar{height:12px;background:#d5e6e1;border-radius:99px;overflow:hidden;margin:12px 0}.waterbar span{display:block;height:100%;width:0;background:#4e9c8f;border-radius:99px;transition:.3s}.waterbuttons{display:flex;gap:8px;flex-wrap:wrap}.waterbuttons button{border:1px solid #b8d5cd;background:white;color:#286d69;padding:9px 13px;border-radius:10px;cursor:pointer;font-weight:650}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}.pill{display:inline-block;background:var(--mint);color:var(--green);border-radius:99px;padding:4px 9px;font-size:11px;font-weight:700}
+.vitgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.vit{border:1px solid var(--line);border-radius:14px;padding:14px}.vit h3{margin:0 0 5px;color:var(--deep);font-size:15px}.vit p{margin:0;color:var(--muted);font-size:13px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.intro{display:block}.tag{display:none}}@media(max-width:500px){.food-list,.vitgrid{grid-template-columns:1fr}.row{grid-template-columns:1fr 105px}.meal-total{grid-template-columns:1fr 1fr 1fr}.card{padding:16px}header{padding:22px 18px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div class="brand"><div class="logo">🥬</div> Зелёная тарелка</div><span class="tag">ЛОКАЛЬНЫЙ ПОМОЩНИК ПИТАНИЯ</span></div>
+ <p>Изучайте состав продуктов, собирайте сбалансированную тарелку и узнавайте, какие питательные вещества дают разные продукты. Просто, понятно и без подключения к интернету.</p>
+</header>
+<main>
+ <div class="intro"><div><h1>Ваш ежедневный гид по питанию</h1><p>Выберите продукт или добавьте его в свою тарелку.</p></div><span class="pill">🌱 Данные хранятся только в этой вкладке</span></div>
+ <nav class="tabs">
+  <button class="tab active" data-tab="explore">🔎 Изучить продукт</button>
+  <button class="tab" data-tab="plate">🍽 Моя тарелка</button>
+  <button class="tab" data-tab="water">💧 Вода</button>
+  <button class="tab" data-tab="guide">📚 Справочник</button>
+ </nav>
+ <section class="panel active" id="explore">
+  <div class="layout">
+   <div class="card"><h2>Найдите продукт</h2><p class="sub">Выберите из каталога или найдите по названию.</p>
+    <input id="search" placeholder="Например: яблоко, гречка, йогурт…" autocomplete="off">
+    <div class="food-list" id="foodList"></div>
+    <p class="note">Пищевая ценность указана ориентировочно на 100 г продукта. Реальные значения зависят от сорта, бренда и приготовления.</p>
+   </div>
+   <div class="card"><h2>Карточка продукта</h2><p class="sub">Состав, польза и особенности.</p><div id="productResult" class="result-empty">👈 Выберите продукт из списка, чтобы увидеть подробную информацию.</div></div>
+  </div>
+ </section>
+ <section class="panel" id="plate">
+  <div class="layout">
+   <div class="card"><h2>Соберите свою тарелку</h2><p class="sub">Добавляйте продукты и указывайте примерную порцию.</p>
+    <label for="plateFood">Продукт</label><select id="plateFood"></select>
+    <div class="row"><div><label for="grams">Количество, граммов</label><input id="grams" type="number" min="1" max="2000" value="150"></div><div><label>&nbsp;</label><button class="btn" id="addFood">Добавить</button></div></div>
+    <div id="mealItems"></div>
+   </div>
+   <div class="card"><h2>Состав тарелки</h2><p class="sub">Ориентировочная сумма питательных веществ выбранных продуктов.</p>
+    <div class="meal-total"><div class="metric"><b id="totalKcal">0</b><span>ккал</span></div><div class="metric"><b id="totalProtein">0 г</b><span>белки</span></div><div class="metric"><b id="totalWater">0 мл</b><span>вода в еде</span></div></div>
+    <div id="mealAdvice" class="explain"><h3>Подсказка</h3><p>Добавьте несколько разных продуктов. Разнообразие помогает получать разные питательные вещества.</p></div>
+    <p class="note">Это справочная оценка состава еды, а не дневная норма или цель по калориям. Не нужно стремиться к минимальному числу калорий.</p>
+   </div>
+  </div>
+ </section>
+ <section class="panel" id="water">
+  <div class="layout">
+   <div class="card"><h2>Водный дневник</h2><p class="sub">Отмечайте выпитую воду в течение дня.</p>
+    <div class="waterbox"><div class="waterbig"><span id="waterCount">0</span> мл</div><div class="waterbar"><span id="waterFill"></span></div><div class="waterbuttons"><button data-water="150">+150 мл</button><button data-water="250">+250 мл</button><button data-water="300">+300 мл</button><button id="waterReset">Сбросить</button></div></div>
+    <p class="note">Это простой журнал, а не медицинская норма. Потребность в жидкости различается в зависимости от погоды, активности, возраста и состояния здоровья. Пейте регулярно и ориентируйтесь на жажду; не заставляйте себя выпивать лишнее.</p>
+   </div>
+   <div class="card"><h2>Где ещё есть вода?</h2><p class="sub">Жидкость поступает не только из стакана.</p>
+    <div class="vitgrid">
+     <div class="vit"><h3>🥒 Овощи</h3><p>Огурец, томат, салат и другие овощи содержат много воды.</p></div>
+     <div class="vit"><h3>🍉 Фрукты</h3><p>Арбуз, апельсин, ягоды и дыня помогают получать жидкость.</p></div>
+     <div class="vit"><h3>🥣 Супы</h3><p>Бульоны и супы тоже вносят вклад в общее поступление жидкости.</p></div>
+     <div class="vit"><h3>🥛 Напитки</h3><p>Вода — удобный повседневный выбор. Молоко и несладкие напитки также содержат жидкость.</p></div>
+    </div>
+   </div>
+  </div>
+ </section>
+ <section class="panel" id="guide">
+  <div class="card"><h2>Небольшой справочник</h2><p class="sub">Для чего организму нужны основные витамины и минералы.</p>
+   <div class="vitgrid">
+    <div class="vit"><h3>🍊 Витамин C</h3><p>Участвует в работе иммунной системы, образовании коллагена и усвоении железа. Источники: цитрусовые, киви, сладкий перец, ягоды.</p></div>
+    <div class="vit"><h3>🥕 Витамин A</h3><p>Важен для зрения, кожи и нормальной работы иммунной системы. Источники: морковь, тыква, шпинат, яйца.</p></div>
+    <div class="vit"><h3>🌾 Витамины группы B</h3><p>Помогают превращать пищу в энергию и поддерживают нервную систему. Источники: цельные злаки, бобовые, яйца, мясо.</p></div>
+    <div class="vit"><h3>☀️ Витамин D</h3><p>Нужен для здоровья костей и работы мышц. Есть в жирной рыбе, яйцах и обогащённых продуктах.</p></div>
+    <div class="vit"><h3>🩸 Железо</h3><p>Входит в состав гемоглобина, который переносит кислород. Источники: мясо, чечевица, фасоль, гречка.</p></div>
+    <div class="vit"><h3>🦴 Кальций</h3><p>Важен для костей, зубов и работы мышц. Источники: молочные продукты, обогащённые напитки, некоторые виды зелени.</p></div>
+    <div class="vit"><h3>⚡ Магний</h3><p>Участвует в работе мышц, нервной системы и многих обменных процессах. Источники: орехи, семена, бобовые, цельные злаки.</p></div>
+    <div class="vit"><h3>🌱 Клетчатка</h3><p>Поддерживает пищеварение и помогает разнообразить рацион. Источники: овощи, фрукты, бобовые и цельнозерновые продукты.</p></div>
+   </div>
+  </div>
+ </section>
+</main>
+<footer>Зелёная тарелка · Работает автономно · Никакие данные не отправляются в интернет</footer>
+<script>
+const foods=[
+{id:'apple',name:'Яблоко',cat:'Фрукты',k:52,p:.3,c:14,f:.2,w:86,fiber:2.4,sugar:10.4,salt:1,vit:'Витамин C, калий',good:'Источник воды и клетчатки. Удобный фрукт для перекуса.',caution:'Естественные сахара входят в состав фрукта вместе с клетчаткой. Это не делает яблоко вредным.',grade:'good'},
+{id:'banana',name:'Банан',cat:'Фрукты',k:89,p:1.1,c:23,f:.3,w:75,fiber:2.6,sugar:12.2,salt:1,vit:'Витамин B6, калий',good:'Даёт углеводы, калий и витамин B6.',caution:'Содержит естественные сахара; размер порции можно выбирать по аппетиту.',grade:'good'},
+{id:'orange',name:'Апельсин',cat:'Фрукты',k:47,p:.9,c:12,f:.1,w:87,fiber:2.4,sugar:9.4,salt:0,vit:'Витамин C, фолат',good:'Содержит витамин C, воду и клетчатку.',caution:'При чувствительности к кислоте может быть некомфортен — учитывайте индивидуальную переносимость.',grade:'good'},
+{id:'berries',name:'Ягоды (смесь)',cat:'Фрукты',k:50,p:1,c:12,f:.4,w:85,fiber:4,sugar:7,salt:1,vit:'Витамин C, антоцианы',good:'Разные ягоды дают клетчатку и растительные антиоксиданты.',caution:'Состав зависит от смеси и сезонности.',grade:'good'},
+{id:'cucumber',name:'Огурец',cat:'Овощи',k:15,p:.7,c:3.6,f:.1,w:95,fiber:.5,sugar:1.7,salt:2,vit:'Витамин K',good:'Содержит много воды и подходит для разнообразия овощной части рациона.',caution:'Сам по себе не заменяет разнообразные овощи и другие группы продуктов.',grade:'good'},
+{id:'tomato',name:'Помидор',cat:'Овощи',k:18,p:.9,c:3.9,f:.2,w:95,fiber:1.2,sugar:2.6,salt:5,vit:'Витамин C, ликопин',good:'Содержит воду, витамин C и растительный пигмент ликопин.',caution:'При рефлюксе или чувствительности кислые продукты могут вызывать дискомфорт.',grade:'good'},
+{id:'carrot',name:'Морковь',cat:'Овощи',k:41,p:.9,c:10,f:.2,w:88,fiber:2.8,sugar:4.7,salt:69,vit:'Бета-каротин (провитамин A)',good:'Бета-каротин организм может использовать для образования витамина A; есть клетчатка.',caution:'Один продукт не обеспечивает все потребности в витаминах.',grade:'good'},
+{id:'broccoli',name:'Брокколи',cat:'Овощи',k:34,p:2.8,c:7,f:.4,w:89,fiber:2.6,sugar:1.7,salt:33,vit:'Витамин C, K, фолат',good:'Содержит клетчатку и несколько витаминов.',caution:'При некоторых особенностях пищеварения может вызывать вздутие.',grade:'good'},
+{id:'buckwheat',name:'Гречка варёная',cat:'Крупы',k:92,p:3.4,c:19.9,f:.6,w:75,fiber:2.7,sugar:.9,salt:4,vit:'Магний, марганец',good:'Источник сложных углеводов, клетчатки и минералов.',caution:'Пищевая ценность сильно меняется в зависимости от количества воды при варке.',grade:'good'},
+{id:'oats',name:'Овсяная каша на воде',cat:'Крупы',k:71,p:2.5,c:12,f:1.5,w:84,fiber:1.7,sugar:.3,salt:4,vit:'Витамины B, магний',good:'Даёт углеводы и растворимую клетчатку бета-глюкан.',caution:'Добавки вроде сиропа и сахара меняют состав готового блюда.',grade:'good'},
+{id:'rice',name:'Рис варёный',cat:'Крупы',k:130,p:2.7,c:28,f:.3,w:68,fiber:.4,sugar:.1,salt:1,vit:'Витамины группы B (в зависимости от вида)',good:'Источник энергии и удобная основа для сочетания с овощами и белковыми продуктами.',caution:'Белый рис содержит меньше клетчатки, чем многие цельнозерновые крупы.',grade:'moderate'},
+{id:'lentils',name:'Чечевица варёная',cat:'Бобовые',k:116,p:9,c:20,f:.4,w:70,fiber:7.9,sugar:1.8,salt:2,vit:'Фолат, железо, магний',good:'Содержит растительный белок, клетчатку и минералы.',caution:'У некоторых людей бобовые могут вызывать газообразование.',grade:'good'},
+{id:'egg',name:'Яйцо варёное',cat:'Белковые продукты',k:155,p:12.6,c:1.1,f:10.6,w:75,fiber:0,sugar:1.1,salt:124,vit:'B12, холин, селен',good:'Источник полноценного белка и ряда микроэлементов.',caution:'При аллергии на яйца продукт не подходит; учитывайте индивидуальные рекомендации врача.',grade:'good'},
+{id:'chicken',name:'Куриная грудка приготовленная',cat:'Белковые продукты',k:165,p:31,c:0,f:3.6,w:65,fiber:0,sugar:0,salt:74,vit:'Витамины B3 и B6',good:'Содержит белок, необходимый для роста и восстановления тканей.',caution:'Способ приготовления и добавленная соль влияют на итоговый состав.',grade:'good'},
+{id:'salmon',name:'Лосось приготовленный',cat:'Белковые продукты',k:206,p:22,c:0,f:12,w:64,fiber:0,sugar:0,salt:59,vit:'Омега‑3, витамин D, B12',good:'Источник белка и омега‑3 жирных кислот.',caution:'Рыбу важно правильно хранить и термически обрабатывать.',grade:'good'},
+{id:'yogurt',name:'Йогурт натуральный',cat:'Молочные продукты',k:61,p:3.5,c:4.7,f:3.3,w:87,fiber:0,sugar:4.7,salt:46,vit:'Кальций, B12',good:'Может давать белок и кальций; варианты без добавленного сахара удобны для повседневного рациона.',caution:'При непереносимости лактозы выбирайте подходящий вариант.',grade:'good'},
+{id:'cheese',name:'Сыр твёрдый',cat:'Молочные продукты',k:402,p:25,c:1.3,f:33,w:37,fiber:0,sugar:.5,salt:621,vit:'Кальций, B12',good:'Содержит белок и кальций.',caution:'Обычно содержит много соли и насыщенных жиров; разумно сочетать с другими источниками кальция.',grade:'moderate'},
+{id:'nuts',name:'Миндаль',cat:'Орехи и семена',k:579,p:21.2,c:21.6,f:49.9,w:4.4,fiber:12.5,sugar:4.4,salt:1,vit:'Витамин E, магний',good:'Содержит ненасыщенные жиры, клетчатку, витамин E и магний.',caution:'Энергетически плотный продукт; при аллергии на орехи его нужно исключить.',grade:'good'},
+{id:'chips',name:'Картофельные чипсы',cat:'Снэки',k:536,p:7,c:53,f:35,w:2,fiber:4.8,sugar:.5,salt:525,vit:'Небольшое количество калия',good:'Могут быть частью питания время от времени — отдельный продукт не определяет качество всего рациона.',caution:'Часто содержат много соли и жира и мало клетчатки. Лучше не делать их основой ежедневных перекусов.',grade:'limit'},
+{id:'soda',name:'Сладкая газировка',cat:'Напитки',k:42,p:0,c:10.6,f:0,w:89,fiber:0,sugar:10.6,salt:4,vit:'Обычно мало витаминов и минералов',good:'Жидкость тоже поступает с напитками.',caution:'Часто содержит добавленный сахар и почти не даёт клетчатки или значимых микронутриентов. Для повседневного питья чаще выбирайте воду.',grade:'limit'},
+{id:'instant',name:'Лапша быстрого приготовления',cat:'Готовые продукты',k:450,p:9,c:62,f:17,w:5,fiber:3,sugar:2,salt:1800,vit:'Зависит от обогащения',good:'Удобный быстрый вариант в некоторых ситуациях.',caution:'Многие варианты содержат много соли. Можно дополнить овощами и яйцом/бобовыми, а приправу использовать частично.',grade:'limit'},
+{id:'cookie',name:'Печенье сладкое',cat:'Сладости',k:480,p:6,c:70,f:20,w:4,fiber:2,sugar:25,salt:350,vit:'Обычно немного микронутриентов',good:'Сладости не нужно делить на «запрещённые» и «разрешённые»: важны общий рацион и отношение к еде.',caution:'Часто содержит добавленный сахар и мало клетчатки; пусть в рационе будут и более питательные перекусы.',grade:'moderate'}
+];
+const $=id=>document.getElementById(id);let selected=null,meal=[],water=0;
+function fmt(n){return (Math.round(n*10)/10).toLocaleString('ru-RU')}
+function drawFoods(){let q=$('search').value.toLowerCase();$('foodList').innerHTML=foods.filter(f=>(f.name+' '+f.cat).toLowerCase().includes(q)).map(f=>`<button class="food ${selected===f.id?'selected':''}" data-id="${f.id}"><strong>${f.name}</strong><small>${f.cat} · ${f.k} ккал / 100 г</small></button>`).join('')||'<div class="result-empty">Ничего не найдено. Попробуйте другое название.</div>';document.querySelectorAll('.food').forEach(b=>b.onclick=()=>showFood(b.dataset.id))}
+function showFood(id){selected=id;let f=foods.find(x=>x.id===id);drawFoods();let cls=f.grade==='good'?'good':f.grade==='moderate'?'moderate':'limit';let label=f.grade==='good'?'Хороший источник питательных веществ':f.grade==='moderate'?'Учитывайте состав и порцию':'Лучше не делать частым выбором';$('productResult').className='';$('productResult').innerHTML=`<div class="verdict ${cls}">${f.grade==='good'?'✓':f.grade==='moderate'?'◐':'!'} ${label}</div><h2>${f.name}</h2><span class="pill">${f.cat}</span><div class="nutrients"><div class="nut"><b>${f.k}</b><span>ккал</span></div><div class="nut"><b>${f.p} г</b><span>белки</span></div><div class="nut"><b>${f.c} г</b><span>углеводы</span></div><div class="nut"><b>${f.f} г</b><span>жиры</span></div><div class="nut"><b>${f.fiber} г</b><span>клетчатка</span></div><div class="nut"><b>${f.w}%</b><span>вода в продукте</span></div></div><div class="explain"><h3>🌿 Чем может быть полезен</h3><p>${f.good}</p></div><div class="explain"><h3>🔎 На что обратить внимание</h3><p>${f.caution}</p></div><div class="explain"><h3>🧬 Важные вещества</h3><p>${f.vit}</p></div><p class="note">Значения приблизительные на 100 г. Оценка описывает особенности продукта, а не делит еду на «хорошую» и «плохую». Важны разнообразие, порция, частота и индивидуальные потребности.</p>`}
+function initPlate(){ $('plateFood').innerHTML=foods.map(f=>`<option value="${f.id}">${f.name}</option>`).join('')}
+function renderMeal(){let k=0,p=0,w=0;meal.forEach(x=>{let f=foods.find(a=>a.id===x.id),m=x.g/100;k+=f.k*m;p+=f.p*m;w+=f.w*m});$('totalKcal').textContent=fmt(k);$('totalProtein').textContent=fmt(p)+' г';$('totalWater').textContent=Math.round(w*10)+' мл';$('mealItems').innerHTML=meal.length?`<table><thead><tr><th>Продукт</th><th>Граммы</th><th></th></tr></thead><tbody>${meal.map((x,i)=>`<tr><td>${foods.find(f=>f.id===x.id).name}</td><td>${x.g} г</td><td><button class="remove" data-i="${i}">Удалить</button></td></tr>`).join('')}</tbody></table>`:'<div class="result-empty">Пока ничего не добавлено.</div>';document.querySelectorAll('.remove').forEach(b=>b.onclick=()=>{meal.splice(+b.dataset.i,1);renderMeal()});let cats=new Set(meal.map(x=>foods.find(f=>f.id===x.id).cat));$('mealAdvice').innerHTML=`<h3>🌱 Подсказка</h3><p>${meal.length===0?'Добавьте продукты, чтобы увидеть состав.':cats.size>=3?'Отлично: в тарелке уже есть несколько разных групп продуктов. Продолжайте выбирать разнообразную еду.':'Попробуйте добавить продукт из другой группы — например, овощи, фрукты, бобовые или источник белка.'}</p>`}
+$('addFood').onclick=()=>{let id=$('plateFood').value,g=Math.max(1,Math.min(2000,+$('grams').value||100));meal.push({id,g});renderMeal()};
+$('search').addEventListener('input',drawFoods);
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(''+b.dataset.tab).classList.add('active')});
+document.querySelectorAll('[data-water]').forEach(b=>b.onclick=()=>{water+=+b.dataset.water;renderWater()});$('waterReset').onclick=()=>{water=0;renderWater()};
+function renderWater(){$('waterCount').textContent=water.toLocaleString('ru-RU');$('waterFill').style.width=Math.min(100,water/2500*100)+'%'}
+drawFoods();initPlate();renderMeal();renderWater();
+</script>
+</body></html>
